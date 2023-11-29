@@ -5,7 +5,7 @@ from django.http import Http404
 
 from base import mods
 
-
+# Esto es solo una prueba de commit
 class VisualizerView(TemplateView):
     template_name = 'visualizer/visualizer.html'
 
