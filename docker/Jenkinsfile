@@ -11,7 +11,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %CONTAINER_IMAGE% .'
+                dir('docker/') {
+                    bat 'docker build -t %CONTAINER_IMAGE% .'
+                }
             }
         }
         stage('Scan with Trivy') {
