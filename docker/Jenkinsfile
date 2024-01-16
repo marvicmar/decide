@@ -1,7 +1,38 @@
+//Windows
+// pipeline {
+//     agent any
+//     environment {
+//         CONTAINER_IMAGE = 'decide-image'
+//     }
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 checkout scm
+//             }
+//         }
+//         stage('Build Docker Image') {
+//             steps {
+//                 dir('docker/') {
+//                     bat 'docker build -t %CONTAINER_IMAGE% .'
+//                 }
+//             }
+//         }
+//         stage('Scan with Trivy') {
+//             steps {
+//                 script {
+//                     bat trivy --version
+                    
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//Linux
 pipeline {
     agent any
     environment {
-        CONTAINER_IMAGE = 'decide-image'
+        CONTAINER_IMAGE = 'your-container-image'
     }
     stages {
         stage('Checkout') {
@@ -11,16 +42,17 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('docker/') {
-                    bat 'docker build -t %CONTAINER_IMAGE% .'
+                script {
+                    // Build your Docker image
+                    sh 'docker build -t $CONTAINER_IMAGE .'
                 }
             }
         }
         stage('Scan with Trivy') {
             steps {
                 script {
-                    bat trivy --version
-                    
+                    // Scan the Docker image with Trivy
+                    sh "trivy --exit-code 1 --severity HIGH,CRITICAL --no-progress $CONTAINER_IMAGE"
                 }
             }
         }
