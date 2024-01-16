@@ -1,10 +1,27 @@
 pipeline {
-    agent { dockerfile true }
+    agent { dockerfile true}
+
     stages {
-        stage('Test') {
+        stage('Build Docker Image') {
             steps {
-                bat 'echo "Hola mundo"'
+                script {
+                    // Imprime el contenido antes de la clonación
+                    bat 'dir C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Decide Github'
+
+                    // Clona el repositorio
+                    checkout scm
+
+                    // Imprime el contenido después de la clonación
+                    bat 'dir C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Decide Github'
+
+                    // Construye la imagen Docker desde el Dockerfile en la carpeta "docker"
+                    bat 'docker build -t my-docker-image -f docker/Dockerfile .'
+
+                    bat 'echo "Success"'
+                }
             }
         }
+
+        
     }
 }
