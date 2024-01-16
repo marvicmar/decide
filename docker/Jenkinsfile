@@ -18,7 +18,18 @@ pipeline {
         }
         stage('Scan with Trivy') {
             steps {
-                bat 'trivy --exit-code 1 --severity HIGH,CRITICAL --no-progress %CONTAINER_IMAGE%'
+                script {
+                    // Scan the Docker image with Trivy
+                    def trivyOutput = bat(script: 'trivy --severity HIGH,CRITICAL --no-progress %CONTAINER_IMAGE%', returnStatus: true).trim()
+                    
+                    // Print Trivy output for debugging purposes
+                    echo "Trivy Output: ${trivyOutput}"
+                    
+                    // Check the Trivy output and fail the build if vulnerabilities are found
+                    if (trivyOutput.contains("CRITICAL") || trivyOutput.contains("HIGH")) {
+                        error "Vulnerabilities found. Failing the build."
+                    }
+                }
             }
         }
     }
