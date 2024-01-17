@@ -1,33 +1,4 @@
 //Linux
-// pipeline {
-//     agent any
-//     environment {
-//         CONTAINER_IMAGE = 'decide-image'
-//     }
-//     stages {
-//         stage('Checkout') {
-//             steps {
-//                 checkout scm
-//             }
-//         }
-//         stage('Build Docker Image') {
-//             steps {
-//               dir('docker/') {
-//                     sh 'docker build -t $CONTAINER_IMAGE .'
-//                 }
-//             }
-//         }
-//        stage('Scan with Trivy') {
-//           steps {
-//               script {
-//                   sh 'trivy image decide-image'
-//               }
-//           }
-//        }
-//     }
-// }
-
-//Windows
 pipeline {
     agent any
     environment {
@@ -41,17 +12,46 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('docker/') {
-                    bat 'docker build -t %CONTAINER_IMAGE% .'
+              dir('docker/') {
+                    sh 'docker build -t $CONTAINER_IMAGE .'
                 }
             }
         }
-        stage('Scan with Trivy') {
-            steps {
-                script {
-                    sh 'trivy image decide-image'
-                }
-            }
-        }
+       stage('Scan with Trivy') {
+          steps {
+              script {
+                  sh 'trivy image decide-image'
+              }
+          }
+       }
     }
 }
+
+// //Windows
+// pipeline {
+//     agent any
+//     environment {
+//         CONTAINER_IMAGE = 'decide-image'
+//     }
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 checkout scm
+//             }
+//         }
+//         stage('Build Docker Image') {
+//             steps {
+//                 dir('docker/') {
+//                     bat 'docker build -t %CONTAINER_IMAGE% .'
+//                 }
+//             }
+//         }
+//         stage('Scan with Trivy') {
+//             steps {
+//                 script {
+//                     sh 'trivy image decide-image'
+//                 }
+//             }
+//         }
+//     }
+// }
