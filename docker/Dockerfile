@@ -30,7 +30,8 @@ RUN apk add --no-cache --virtual .build-deps \
     musl-dev \
     && pip install --no-cache-dir pytest \
     && apk del .build-deps
-
+    
+WORKDIR /app
 # Copiar el archivo requirements.txt y luego instalar las dependencias
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
