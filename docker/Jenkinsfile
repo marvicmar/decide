@@ -3,6 +3,7 @@ pipeline {
     agent any
     environment {
         CONTAINER_IMAGE = 'decide-image'
+        VENV_ACTIVATE = '/venv/bin/activate'
     }
     stages {
         stage('Checkout') {
@@ -28,7 +29,7 @@ pipeline {
            steps {
                script {
                    sh 'python3 -m venv venv'
-                   sh 'source venv/source/activate'
+                   sh '. $VENV_ACTIVATE'
                }
                dir('decide/') {
                    sh 'python3 manage.py test'
