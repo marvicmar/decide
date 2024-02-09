@@ -29,4 +29,5 @@ RUN apk add --no-cache --virtual .build-deps \
     gcc \
     musl-dev \
     && pip install --no-cache-dir pytest \
-    && apk del .build-deps
+    && apk del .build-deps \
+    && pip install pytest
