@@ -26,12 +26,12 @@ pipeline {
        }
        stage('Python test') {
            steps {
-               // script {
-               //     sh 'python3 -m venv venv'
-               //     sh 'source venv/source/activate'
-               // }
+               script {
+                   sh 'python3 -m venv venv'
+                   sh 'source venv/source/activate'
+               }
                dir('decide/') {
-                   sh './manage.py test'
+                   sh 'python3 manage.py test'
                }
            }
        }
