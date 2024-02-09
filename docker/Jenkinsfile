@@ -27,7 +27,7 @@ pipeline {
        stage('Python test') {
            steps {
                script {
-                   dir('/decide') {
+                   dir('decide/') {
                        sh './manage.py test'
                    }
                }
