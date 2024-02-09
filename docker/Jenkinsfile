@@ -27,7 +27,7 @@ pipeline {
        stage('Python test') {
            steps {
                script {
-                   sh 'python manage.py test'
+                   sh 'python3 manage.py test'
                }
            }
        }
