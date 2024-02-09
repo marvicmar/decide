@@ -27,7 +27,7 @@ pipeline {
        stage('Python test') {
            steps {
                dir('decide/') {
-                   sh 'python3 manage.py test'
+                   sh 'pytest'
                }
            }
        }
