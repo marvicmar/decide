@@ -1,16 +1,15 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'sonarsource/sonar-scanner-cli'
+            label 'docker'
+        }
+    }
     stages  {
         stage('Static code analysis') {
             when {
                 beforeAgent true
                 branch 'master'
-            }
-            agent {
-                docker {
-                    image 'sonarsource/sonar-scanner-cli'
-                    label 'docker'
-                }
             }
             steps {
                 updateGitlabCommitStatus name: 'sonarqube-app', state: 'running'
