@@ -1,0 +1,31 @@
+stage('Static code analysis') {
+  when {
+      beforeAgent true
+      branch 'master'
+  }
+  agent {
+      docker {
+          image 'sonarsource/sonar-scanner-cli'
+          label 'docker'
+      }
+  }
+  steps {
+      updateGitlabCommitStatus name: 'sonarqube-app', state: 'running'
+      dir('app') {
+          withSonarQubeEnv('SonarQube') {
+              sh 'sonar-scanner'
+          }
+      }
+  }
+  post {
+      failure {
+          updateGitlabCommitStatus name: 'sonarqube-app', state: 'failed'
+      }
+      success {
+          updateGitlabCommitStatus name: 'sonarqube-app', state: 'success'
+      }
+      aborted {
+          updateGitlabCommitStatus name: 'sonarqube-app', state: 'canceled'
+      }
+  }
+}
